@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Home, Newspaper, Info, Menu } from "lucide-react";
+import { Home, Newspaper, Info, PanelRight } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 const menu = [
@@ -50,7 +50,7 @@ export default function Sidebar() {
           className="p-2 rounded-md hover:bg-zinc-800 transition"
           aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
-          <Menu size={20} />
+          <PanelRight size={20} />
         </button>
       </div>
 
