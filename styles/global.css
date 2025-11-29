@@ -1,0 +1,14 @@
+:root {
+    /* default sidebar width (fallback) */
+    --sidebar-width: 16rem;
+}
+
+@media (max-width: 768px) {
+    :root {
+        --sidebar-width: 0;
+    }
+
+    aside {
+        transform: translateX(-100%);
+    }
+}
