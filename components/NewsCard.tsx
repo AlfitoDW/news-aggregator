@@ -1,32 +1,44 @@
 // components/NewsCard.tsx
 
-export default function NewsCard({ news }: { news: any }) {
+type NewsCardProps = {
+  news : {
+    id : number;
+    title : string;
+    description : string;
+    image: string;
+    url: string;
+  };
+};
+
+
+export default function NewsCard({ news }:  NewsCardProps ) {
   return (
-    <a href={news.url} target="_blank" rel="noopener noreferrer">
-      <article className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all hover:scale-[1.02] cursor-pointer">
-        
-        <div className="aspect-video overflow-hidden bg-gray-100">
+    <a
+      href={news.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="block"
+    >
+      <article className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all hover:scale-[1.02] cursor-pointer flex flex-col h-full">
+        {/* FIX: Gambar seragam */}
+        <div className="w-full h-48 overflow-hidden">
           <img
-            src={news.image || "/placeholder.jpg"}
+            src={news.image}
             alt={news.title}
             className="w-full h-full object-cover"
           />
         </div>
-
-        <div className="p-4">
-          <h2 className="font-semibold text-lg mb-2">
+        {/* FIX: Bagian konten agar konsisten*/}
+        <div className="flex flex-col p-5 flex-1">
+          <h2 className="text-lg font-semibold text-zinc-900 mb-2 line-clamp-2 min-h-12">
             {news.title}
           </h2>
 
-          <p className="text-sm text-gray-600 line-clamp-3">
+
+          <p className="text-sm text-zinc-600 line-clamp-3 flex-1">
             {news.description}
           </p>
-
-          <p className="text-xs text-gray-400 mt-3">
-            {news.publishedAt ? new Date(news.publishedAt).toLocaleString() : ""}
-          </p>
         </div>
-
       </article>
     </a>
   );
