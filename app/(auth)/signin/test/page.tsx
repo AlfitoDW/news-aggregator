@@ -1,0 +1,4 @@
+export default function Test() {
+  return <div>TEST ROUTE</div>;
+  <p>tai</p>
+}
