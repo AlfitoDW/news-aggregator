@@ -3,63 +3,54 @@
 import { useState } from "react";
 
 export default function ForgotPasswordPage() {
+  const [email, setEmail] = useState("");
+  const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
 
-    const email = new FormData(e.currentTarget).get("email");
-
-    // TODO: panggil API reset password
-    console.log("Reset password for:", email);
+    await fetch("/api/auth/forgot-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
 
     setLoading(false);
+    setSuccess(true);
   }
 
   return (
-    <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
-      <h1 className="text-2xl font-bold text-gray-800 mb-2">
-        Forgot Password 🔐
-      </h1>
+    <div className="text-gray-600 w-full max-w-md bg-white rounded-xl shadow p-8">
+      <h1 className="text-2xl font-bold mb-2">Forgot Password</h1>
       <p className="text-gray-500 mb-6">
-        Masukkan email kamu, kami akan kirim link reset password.
+        Masukkan email untuk menerima link reset password
       </p>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="text-sm font-medium text-gray-700">
-            Email
-          </label>
+      {success ? (
+        <div className="text-green-600 text-sm bg-green-50 border border-green-200 rounded-lg p-3">
+          Jika email terdaftar, link reset sudah dikirim.
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit} className="space-y-4">
           <input
-            name="email"
             type="email"
             required
             placeholder="you@example.com"
-            className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-2
-                       focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500"
           />
-        </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full rounded-lg bg-indigo-600 py-2.5 text-white font-semibold
-                     hover:bg-indigo-700 transition disabled:opacity-60"
-        >
-          {loading ? "Sending..." : "Send Reset Link"}
-        </button>
-      </form>
-
-      <p className="text-sm text-gray-500 mt-6 text-center">
-        Kembali ke{" "}
-        <a
-          href="/signin"
-          className="text-indigo-600 hover:underline"
-        >
-          Sign In
-        </a>
-      </p>
+          <button
+            disabled={loading}
+            className="w-full bg-indigo-600 text-white py-2.5 rounded-lg font-semibold hover:bg-indigo-700 disabled:opacity-60"
+          >
+            {loading ? "Sending..." : "Send reset link"}
+          </button>
+        </form>
+      )}
     </div>
   );
 }

@@ -1,45 +1,67 @@
-// app/api/auth/[...nextauth]/route.ts
 import NextAuth from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
+import Google from "next-auth/providers/google";
+import Credentials from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/prisma";
-import type { NextAuthOptions } from "next-auth";
-import { handlers } from "@/lib/auth";
+import bcrypt from "bcryptjs";
 
-export const authOptions: NextAuthOptions = {
+const handler = NextAuth({
   adapter: PrismaAdapter(prisma),
-  secret: process.env.NEXTAUTH_SECRET,
-  session: {
-    strategy: "jwt",
-  },
+  session: { strategy: "jwt" },
+
   providers: [
-    GoogleProvider({
+    Google({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
+
+    Credentials({
+      name: "Credentials",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials.password) return null;
+
+        const user = await prisma.user.findUnique({
+          where: { email: credentials.email },
+        });
+
+        if (!user || !user.password) return null;
+
+        const valid = await bcrypt.compare(
+          credentials.password,
+          user.password
+        );
+
+        if (!valid) return null;
+
+        return {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+        };
+      },
+    }),
   ],
+
+  pages: {
+    signIn: "/signin",
+  },
+
   callbacks: {
-    // session callback: attach token.id into session.user.id safely
+    async jwt({ token, user }) {
+      if (user) token.id = user.id;
+      return token;
+    },
     async session({ session, token }) {
-      if (!session.user) session.user = {} as any;
-      if (token?.id) {
-        // ensure we don't break if session.user is undefined
-        (session.user as any).id = token.id as string;
+      if (session.user && token.id) {
+        session.user.id = token.id as string;
       }
       return session;
     },
-
-    // jwt callback: when a user signs in, copy user.id into token.id
-    async jwt({ token, user }) {
-      if (user && (user as any).id) {
-        token.id = (user as any).id;
-      }
-      return token;
-    },
   },
-};
+});
 
-const handler = NextAuth(authOptions);
-
-// Export the handler for both GET and POST so Next.js recognizes the route
 export { handler as GET, handler as POST };
