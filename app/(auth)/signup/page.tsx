@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import PasswordInput from "@/components/PasswordInput";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -45,26 +46,24 @@ export default function SignUpPage() {
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          <label className="text-sm font-medium text-gray-700 ml-1">Name</label>
           <input
             name="name"
             placeholder="Full Name"
             required
-            className="w-full rounded-lg border px-4 py-2"
+            className="w-full rounded-lg border border-gray-300 px-4 py-2"
           />
+
+          <label className="text-sm font-medium text-gray-700 ml-1">Email</label>
           <input
             name="email"
             type="email"
             placeholder="Email"
             required
-            className="w-full rounded-lg border px-4 py-2"
+            className="w-full rounded-lg border border-gray-300 px-4 py-2"
           />
-          <input
-            name="password"
-            type="password"
-            placeholder="Password"
-            required
-            className="w-full rounded-lg border px-4 py-2"
-          />
+          
+          <PasswordInput/>
 
           <button
             disabled={loading}

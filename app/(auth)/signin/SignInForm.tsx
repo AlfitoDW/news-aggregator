@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
+import PasswordInput from "@/components/PasswordInput";
 
 export default function SignInForm() {
   const [loading, setLoading] = useState(false);
@@ -18,7 +19,7 @@ export default function SignInForm() {
     const res = await signIn("credentials", {
       email: formData.get("email"),
       password: formData.get("password"),
-      redirect: false, // 🔥 PENTING
+      redirect: false,
     });
 
     setLoading(false);
@@ -28,23 +29,24 @@ export default function SignInForm() {
       return;
     }
 
-    // sukses login
     window.location.href = "/";
   }
 
   return (
     <div className="text-gray-600 space-y-6">
-      {/* ERROR MESSAGE */}
+      {/* ERROR */}
       {error && (
-        <div className="rounded-lg bg-red-50 border border-red-200 text-red-600 px-4 py-2 text-sm">
+        <div className="rounded-lg bg-red-50 border border-red-200
+                        text-red-600 px-4 py-2 text-sm">
           {error}
         </div>
       )}
 
-      {/* EMAIL LOGIN */}
+      {/* FORM */}
       <form onSubmit={handleSubmit} className="space-y-4">
+        {/* EMAIL */}
         <div>
-          <label className="text-sm font-medium text-gray-700">Email</label>
+          <label className="text-sm font-medium text-gray-700 ml-1">Email</label>
           <input
             name="email"
             type="email"
@@ -55,18 +57,10 @@ export default function SignInForm() {
           />
         </div>
 
-        <div>
-          <label className="text-sm font-medium text-gray-700">Password</label>
-          <input
-            name="password"
-            type="password"
-            required
-            placeholder="••••••••"
-            className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-2
-                       focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
-        </div>
+        {/* PASSWORD */}
+        <PasswordInput />
 
+        {/* REMEMBER + FORGOT */}
         <div className="flex items-center justify-between text-sm">
           <label className="flex items-center gap-2 text-gray-600">
             <input type="checkbox" className="rounded border-gray-300" />
@@ -81,6 +75,7 @@ export default function SignInForm() {
           </Link>
         </div>
 
+        {/* SUBMIT */}
         <button
           type="submit"
           disabled={loading}
@@ -114,7 +109,7 @@ export default function SignInForm() {
         Sign in with Google
       </button>
 
-      {/* SIGN UP LINK */}
+      {/* SIGN UP */}
       <p className="text-center text-sm text-gray-500">
         Belum punya akun?{" "}
         <Link

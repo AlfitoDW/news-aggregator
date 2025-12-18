@@ -1,6 +1,7 @@
 // app/layout.tsx
 import "./globals.css";
 import type { Metadata } from "next";
+import Providers from "./provider";
 
 export const metadata: Metadata = {
   title: "News Aggregator",
@@ -15,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang="id">
       <body className="bg-gray-50 text-gray-900">
-        {children}
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   );
