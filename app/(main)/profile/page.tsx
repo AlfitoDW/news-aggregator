@@ -2,29 +2,36 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Image from "next/image";
+import { prisma } from "@/lib/prisma";
+import Avatar from "@/components/Avatar";
+
 
 export default async function ProfilePage() {
-  const session = await getServerSession(authOptions);
+const session = await getServerSession(authOptions);
 
-  // 🔒 AUTH GUARD
-  if (!session) {
+if (!session || !session.user?.id) {
     redirect("/signin");
   }
+
+const accounts = await prisma.account.findMany({
+  where: {
+    userId: session.user.id,
+  }
+})
+
+const provider =
+  accounts.find((a) => a.provider === "google")?.provider ||
+  accounts[0]?.provider ||
+  "credentials";
 
   const user = session.user;
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10">
+    <div className="min-h-screen py-10">
       <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-sm p-6">
         {/* HEADER */}
         <div className="flex items-center gap-6 border-b pb-6">
-          <Image
-            src={user?.image || "/avatar.png"}
-            alt="Profile"
-            width={96}
-            height={96}
-            className="rounded-full border"
-          />
+          <Avatar src={user.image} size={96}/>
 
           <div>
             <h1 className="text-2xl font-semibold text-gray-800">
@@ -32,10 +39,6 @@ export default async function ProfilePage() {
             </h1>
             <p className="text-gray-500">{user?.email}</p>
             <p className="text-sm text-gray-400 mt-1">
-              Login via{" "}
-              <span className="capitalize">
-                {session?.user?.provider || "credentials"}
-              </span>
             </p>
           </div>
         </div>
@@ -69,11 +72,18 @@ export default async function ProfilePage() {
           <form action="/" method="post">
             <button
               type="submit"
-              className="px-4 py-2 rounded-lg text-sm bg-red-500 text-white hover:bg-red-600"
+              className="px-4 py-2 rounded-lg text-sm bg-black text-white hover:bg-gray-600"
             >
               Beranda
             </button>
           </form>
+
+          <a 
+            href="/profile/edit"
+            className="px-4 py-2 rounded-lg bg-black text-white text-sm hover:bg-gray-600"
+          >
+            Edit Profile
+          </a>
         </div>
       </div>
     </div>

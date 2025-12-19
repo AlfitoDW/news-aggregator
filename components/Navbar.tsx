@@ -57,15 +57,19 @@ export default function Navbar() {
           ) : (
             <div className="relative" ref={dropdownRef}>
               {/* AVATAR */}
-              <button onClick={() => setOpen(!open)}>
-                <Image
-                  src={session.user?.image || "/avatar.png"}
-                  alt="Profile"
-                  width={36}
-                  height={36}
-                  className="rounded-full border border-gray-900"
-                />
-              </button>
+              <button
+  onClick={() => setOpen(!open)}
+  className="relative w-9 h-9 rounded-full overflow-hidden border border-gray-800"
+>
+  <Image
+    src={session.user?.image || "/avatar.png"}
+    alt="Profile"
+    fill
+    sizes="36px"
+    className="object-cover object-center"
+  />
+</button>
+
 
               {/* DROPDOWN */}
               <div
