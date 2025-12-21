@@ -1,45 +1,47 @@
-// components/NewsCard.tsx
+import { NewsArticle } from "@/lib/news";
 
-type NewsCardProps = {
-  news : {
-    id : number;
-    title : string;
-    description : string;
-    image: string;
-    url: string;
-  };
-};
+export default function NewsCard({ article }: { article: NewsArticle }) {
+ 
+  if (!article?.url || !article?.title) return null;
 
-
-export default function NewsCard({ news }:  NewsCardProps ) {
   return (
     <a
-      href={news.url}
+      href={article.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="block"
+      className="group block rounded-xl border bg-white overflow-hidden hover:shadow-md transition"
     >
-      <article className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all hover:scale-[1.02] cursor-pointer flex flex-col h-full">
-        {/* FIX: Gambar seragam */}
-        <div className="w-full h-48 overflow-hidden">
-          <img
-            src={news.image}
-            alt={news.title}
-            className="w-full h-full object-cover"
-          />
-        </div>
-        {/* FIX: Bagian konten agar konsisten*/}
-        <div className="flex flex-col p-5 flex-1">
-          <h2 className="text-lg font-semibold text-zinc-900 mb-2 line-clamp-2 min-h-12">
-            {news.title}
-          </h2>
+      {/* IMAGE */}
+      <div className="h-48 bg-gray-100 overflow-hidden">
+        <img
+          src={article.image || "/news-placeholder.jpg"}
+          alt={article.title}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          loading="lazy"
+        />
+      </div>
 
+      {/* CONTENT */}
+      <div className="p-4 space-y-2">
+        <h3 className="text-sm font-semibold line-clamp-2 text-gray-900">
+          {article.title}
+        </h3>
 
-          <p className="text-sm text-zinc-600 line-clamp-3 flex-1">
-            {news.description}
+        {article.description && (
+          <p className="text-xs text-gray-600 line-clamp-3">
+            {article.description}
           </p>
+        )}
+
+        <div className="flex justify-between items-center text-xs text-gray-400 pt-2">
+          <span>{article.source?.name || "Unknown"}</span>
+          {article.publishedAt && (
+            <span>
+              {new Date(article.publishedAt).toLocaleDateString()}
+            </span>
+          )}
         </div>
-      </article>
+      </div>
     </a>
   );
 }

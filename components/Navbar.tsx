@@ -4,13 +4,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { useSession, signOut } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
+import SearchDialog from "./search/SearchDialog";
+import  { Search } from "lucide-react";
 
 export default function Navbar() {
   const { data: session, status } = useSession();
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // 🔥 klik di luar dropdown → close
+  
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (
@@ -34,17 +36,48 @@ export default function Navbar() {
           News<span className="text-gray-800">Aggregator</span>
         </Link>
 
+        {/* SEARCH */}
+        <div className="w-full max-w-sm">
+          <SearchDialog
+            trigger={
+              <button
+                className="
+                  flex items-center justify-between
+                  w-full
+                  px-4 py-2
+                  rounded-full
+                  border
+                  bg-white
+                  text-sm text-gray-500
+                  hover:bg-gray-50
+                  focus:outline-none
+                "
+              >
+                {/* LEFT */}
+                <div className="flex items-center gap-2">
+                  <Search size={16} className="text-gray-400" />
+                  <span>Search</span>
+                </div>
+
+                {/* RIGHT (shortcut hint) */}
+              </button>
+            }
+          />
+        </div>
+
         {/* MENU */}
         <div className="flex items-center gap-6 text-sm font-medium">
-          <Link href="/" className="hover:text-blue-600">
+          <Link href="/" className="hover:text-black">
             Beranda
           </Link>
-          <Link href="/news" className="hover:text-blue-600">
+          <Link href="/news" className="hover:text-black">
             Berita
           </Link>
-          <Link href="/about" className="hover:text-blue-600">
+          <Link href="/about" className="hover:text-black">
             Tentang
           </Link>
+
+          
 
           {/* AUTH */}
           {status === "loading" ? null : !session ? (
