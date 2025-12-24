@@ -27,7 +27,7 @@ export default function Navbar() {
       document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // 🔥 OPEN SIDEBAR (MOBILE)
+  
   const openSidebar = () => {
     document.getElementById("open-sidebar")?.click();
   };
@@ -38,7 +38,6 @@ export default function Navbar() {
 
         {/* ================= LEFT ================= */}
         <div className="flex items-center gap-3">
-          {/* 🍔 HAMBURGER (MOBILE ONLY) */}
           <button
             onClick={openSidebar}
             className="md:hidden p-2 rounded-lg hover:bg-gray-100"
@@ -104,7 +103,7 @@ export default function Navbar() {
           {status === "loading" ? null : !session ? (
             <Link
               href="/signin"
-              className="hidden md:block px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
+              className="px-3 py-2 rounded-lg bg-black text-white text-sm hover:bg-blue-700"
             >
               Sign In
             </Link>
