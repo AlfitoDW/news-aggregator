@@ -8,11 +8,13 @@ import Avatar from "@/components/Avatar";
 export default async function EditProfilePage() {
   const session = await getServerSession(authOptions);
   
-  const user = session.user;
+  
 
   if (!session || !session.user) {
     redirect("/signin");
   }
+
+  const user = session.user;
 
   return (
     <div className="text-gray-600 min-h-screen bg-gray-50 py-10">

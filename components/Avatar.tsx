@@ -1,7 +1,12 @@
 // components/Avatar.tsx
 import Image from "next/image";
 
-export default function Avatar({ src, size = 96 }) {
+interface AvatarProps {
+  src?: string | null;
+  size?: number;
+}
+
+export default function Avatar({ src, size = 96 } : AvatarProps) {
   return (
     <div
       style={{ width: size, height: size }}
