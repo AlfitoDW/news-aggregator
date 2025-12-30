@@ -52,6 +52,11 @@ export const authOptions: NextAuthOptions = {
   },
 
   callbacks: {
+
+    async redirect({ url , baseUrl}) {
+      return baseUrl;
+    },
+    
     async jwt({ token, user , trigger , session }) {
       if (trigger === "update" && session?.user){
         token.name = session.user.name;
