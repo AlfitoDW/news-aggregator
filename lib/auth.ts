@@ -53,8 +53,8 @@ export const authOptions: NextAuthOptions = {
 
   callbacks: {
 
-    async redirect({ url , baseUrl}) {
-      return baseUrl;
+    async redirect() {
+      return "/";
     },
     
     async jwt({ token, user , trigger , session }) {
