@@ -6,6 +6,7 @@ import bcrypt from "bcryptjs";
 import type { NextAuthOptions } from "next-auth";
 
 export const authOptions: NextAuthOptions = {
+  
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
 
@@ -53,8 +54,10 @@ export const authOptions: NextAuthOptions = {
 
   callbacks: {
 
-    async redirect() {
-      return "/";
+    async redirect({ url, baseUrl }) {
+      // ✅ FIX redirect loop
+      if (url.startsWith(baseUrl)) return url;
+      return baseUrl;
     },
     
     async jwt({ token, user , trigger , session }) {
