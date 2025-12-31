@@ -55,10 +55,10 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
 
     async redirect({ url, baseUrl }) {
-      // ✅ FIX redirect loop
-      if (url.startsWith(baseUrl)) return url;
-      return baseUrl;
-    },
+    if (url.startsWith("/")) return `${baseUrl}${url}`;
+    if (new URL(url).origin === baseUrl) return url;
+    return baseUrl;
+  },
     
     async jwt({ token, user , trigger , session }) {
       if (trigger === "update" && session?.user){
