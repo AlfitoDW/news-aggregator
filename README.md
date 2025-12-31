@@ -1,36 +1,132 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+📰 News Aggregator
 
-## Getting Started
+A modern News Aggregator Web Application built with Next.js, NextAuth, Prisma, and PostgreSQL, featuring Google Authentication, Credential Login, and real-time news from trusted sources.
 
-First, run the development server:
+🔗 Live Demo:
+https://news-aggregator-umber-chi.vercel.app
 
-```bash
+✨ Features
+
+🔐 Authentication with NextAuth
+
+Google OAuth
+
+Email & Password (Credentials)
+
+📰 News Aggregation (GNews API)
+
+👤 User Management (Prisma + PostgreSQL)
+
+🔄 JWT Session Strategy
+
+🌐 Fully deployed on Vercel
+
+🧠 Secure environment variables
+
+📱 Responsive UI
+
+🛠 Tech Stack
+Technology	Description
+Next.js	React Framework
+NextAuth.js	Authentication
+Prisma	ORM
+PostgreSQL	Database
+Google OAuth	Social Login
+Vercel	Deployment
+Tailwind CSS	Styling
+GNews API	News Provider
+📂 Project Structure
+.
+├── app/
+│   ├── auth/
+│   │   ├── [...nextauth]/
+│   │   ├── signin/
+│   │   ├── signup/
+│   │   ├── forgot-password/
+│   │   └── reset-password/
+│   ├── profile/
+│   └── page.tsx
+│
+├── lib/
+│   ├── prisma.ts
+│   └── auth.ts
+│
+├── prisma/
+│   └── schema.prisma
+│
+├── .env
+├── next.config.js
+└── README.md
+
+🔐 Environment Variables
+
+Create a .env file:
+
+# Database
+DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE"
+
+# NextAuth
+NEXTAUTH_SECRET=your_secret_key
+NEXTAUTH_URL=https://news-aggregator-umber-chi.vercel.app
+
+# Google OAuth
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+
+# GNews API
+GNEWS_API_KEY=your_api_key
+
+# Cloudinary (Optional)
+CLOUDINARY_CLOUD_NAME=xxx
+CLOUDINARY_API_KEY=xxx
+CLOUDINARY_API_SECRET=xxx
+
+# SMTP (Optional)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your_email@gmail.com
+SMTP_PASS=your_app_password
+EMAIL_FROM="News Aggregator <your_email@gmail.com>"
+
+🔑 Google OAuth Setup
+Authorized JavaScript Origins
+http://localhost:3000
+https://news-aggregator-umber-chi.vercel.app
+
+Authorized Redirect URIs
+http://localhost:3000/api/auth/callback/google
+https://news-aggregator-umber-chi.vercel.app/api/auth/callback/google
+
+⚙️ Installation & Setup
+# Install dependencies
+npm install
+
+# Generate Prisma Client
+npx prisma generate
+
+# Run database migration
+npx prisma migrate dev
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+🚀 Deployment (Vercel)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Push project to GitHub
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Import project to Vercel
 
-## Learn More
+Add Environment Variables
 
-To learn more about Next.js, take a look at the following resources:
+Set:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+NEXTAUTH_URL=https://your-domain.vercel.app
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Alfito Darma Wijaya
+📍 Indonesia
+💻 Web Developer
+🚀 Passionate about Fullstack & Backend Development
 
-## Deploy on Vercel
+⭐ Support
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+If this project helps you, please consider giving it a ⭐ on GitHub!
